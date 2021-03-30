@@ -37,7 +37,7 @@ class BaseQuotation(metaclass=abc.ABCMeta):
         stock_list = []
         for i in range(0, len(stock_codes), self.max_num):
             request_list = ",".join(
-                stock_with_exchange_list[i : i + self.max_num]
+                stock_with_exchange_list[i: i + self.max_num]
             )
             stock_list.append(request_list)
         return stock_list
@@ -98,7 +98,8 @@ class BaseQuotation(metaclass=abc.ABCMeta):
             ),
         }
 
-        r = self._session.get(self.stock_api + params, headers=headers)
+        r = self._session.get(self.stock_api + params,
+                              headers=headers, timeout=1)
         return r.text
 
     def get_stock_data(self, stock_list, **kwargs):
