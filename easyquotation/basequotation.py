@@ -37,7 +37,7 @@ class BaseQuotation(metaclass=abc.ABCMeta):
         stock_list = []
         for i in range(0, len(stock_codes), self.max_num):
             request_list = ",".join(
-                stock_with_exchange_list[i: i + self.max_num]
+                stock_with_exchange_list[i : i + self.max_num]
             )
             stock_list.append(request_list)
         return stock_list
@@ -73,7 +73,6 @@ class BaseQuotation(metaclass=abc.ABCMeta):
             flag. If prefix is False, index quotation can't return
         :return quotation dict, key is stock_code, value is real quotation.
             If prefix with True, key start with sh/sz market flag
-
         """
         if not isinstance(stock_codes, list):
             stock_codes = [stock_codes]
@@ -89,7 +88,12 @@ class BaseQuotation(metaclass=abc.ABCMeta):
         return self.get_stock_data(self.stock_list, prefix=prefix)
 
     def get_stocks_by_range(self, params):
-        headers = {
+        headers = self._get_headers()
+        r = self._session.get(self.stock_api + params, headers=headers)
+        return r.text
+
+    def _get_headers(self) -> dict:
+        return {
             "Accept-Encoding": "gzip, deflate, sdch",
             "User-Agent": (
                 "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
@@ -97,10 +101,6 @@ class BaseQuotation(metaclass=abc.ABCMeta):
                 "Safari/537.36"
             ),
         }
-
-        r = self._session.get(self.stock_api + params,
-                              headers=headers, timeout=1)
-        return r.text
 
     def get_stock_data(self, stock_list, **kwargs):
         """获取并格式化股票信息"""
