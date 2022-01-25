@@ -29,7 +29,7 @@ class Sina(basequotation.BaseQuotation):
         headers = super()._get_headers()
         return {
             **headers,
-            'Referer': 'http://finance.sina.com.cn/'
+            'Referer': 'http://vip.stock.finance.sina.com.cn/'
         }
 
     def format_response_data(self, rep_data, prefix=False):
