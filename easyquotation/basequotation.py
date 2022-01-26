@@ -89,7 +89,7 @@ class BaseQuotation(metaclass=abc.ABCMeta):
 
     def get_stocks_by_range(self, params):
         headers = self._get_headers()
-        r = self._session.get(self.stock_api + params, headers=headers)
+        r = self._session.get(self.stock_api + params, headers=headers, timeout=1)
         return r.text
 
     def _get_headers(self) -> dict:
