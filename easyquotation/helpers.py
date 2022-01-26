@@ -12,8 +12,8 @@ def update_stock_codes(stock_codes=None):
     if stock_codes is None:
         response = requests.get("http://www.shdjt.com/js/lib/astock.js")
         stock_codes = re.findall(r"~([a-z0-9]*)`", response.text)
-    if not "601399" in stock_codes:
-        stock_codes.append('601399')
+    if not "sh601399" in stock_codes:
+        stock_codes.append('sh601399')
     with open(STOCK_CODE_PATH, "w") as f:
         f.write(json.dumps(dict(stock=stock_codes)))
     return stock_codes
